@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #191414;
+ /*  background: #000;*/
+}
+.posts{
+    padding: 10px;
+    border: solid 1px #00CB5E;
+    border-radius: 20px;
+    height: fit-content;
+}
+
+
+/* nav-bar */
+
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: solid 1px #00CB5E;
+    border-top: none;
+    border-radius: 0px 0px 20px 20px;
+    width: 100%;
+    margin-bottom: 20px;
+   
+    
+}
+nav img{
+   width: 170px;
+}
+
+.logo-div , .items-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+i{
+    color: #00CB5E;
+    border: solid 1px #00CB5E;
+    padding: 10px;
+    border-radius: 100%;
+    transition: all .3s;
+    cursor: pointer;
+    margin: 0 4px;
+}
+
+i:hover{
+    color: white;
+    background: #00cb5e ;
+    transition: all .3s;
+
+
+}
+
+
+
+/*general*/
+
+button{
+    margin-top: 10px;
+    padding: 10px;
+    background: transparent;
+    border:  solid 1px #00CB5E ;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all .3s;
+    color: #191414;
+
+
+}
+
+button:hover{
+    transition: all .3s;
+  background: #00CB5E;
+  color: white;
+
+}

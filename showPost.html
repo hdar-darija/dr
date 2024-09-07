@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hdar.</title>
+    <link rel="shortcut icon" href="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/hdar-icon.png?alt=media&token=613bd5b0-84f0-4c05-8eaf-c6297dbaea28" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="loader.css">
+    <link rel="stylesheet" href="baseStyle.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo-div">
+            <img src="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/hdar%20logos.png?alt=media&token=8d548350-15f9-4a4f-b270-8aceff039d04" alt="">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i></a>
+            <i class="fas fa-share-alt" id="shareButton"></i>
+              
+              
+        </div>
+    </nav>
+
+    <div class="loader-section">
+        <div class="loader" id="loader"></div>
+    </div>
+
+    <div class="container" id="container">
+        <img src="#" alt="" id="img-cover">
+        <h1 id="title"></h1>
+
+        <p id="contant">
+           
+        </p>
+
+        <div class="info">
+            <p id="by"></p>
+            <p id="time"></p>
+        </div>
+    </div>
+
+    <footer>
+        <img src="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/3.png?alt=media&token=6ae5f01e-5c80-42ce-ad8d-e1d15b6a3b9d" alt="">
+        <p>&copy; 2024 HDAR.</p>
+        <p>by abdelhakim sahifa</p>
+    </footer>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 65vw; /* 65% of viewport width */
+            gap: 20px;
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        #by, #time {
+            color: #00CB5E;
+        }
+        img {
+            width: 65vw; /* 65% of viewport width */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove any default inline spacing */
+            margin: 0 auto; 
+        }
+        footer{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background: #00CB5E ;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    
+   
+
+}
+        footer img {
+            width: 70px;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 90vw;
+            }
+            img {
+                width: 90vw;
+            }
+            footer {
+                padding: 0 78px;
+                width: 60vw;
+            
+            }
+        }
+    </style>
+
+    <script>
+        const loader = document.getElementById('loader');
+    const container = document.getElementById('container');
+      
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOGC8qinBmX_F4msMrrxV3VgbwYt6mtg8",
+            authDomain: "darija2024-database.firebaseapp.com",
+            databaseURL: "https://darija2024-database-default-rtdb.firebaseio.com",
+            projectId: "darija2024-database",
+            storageBucket: "darija2024-database.appspot.com",
+            messagingSenderId: "621215461163",
+            appId: "1:621215461163:web:d594741683e99c742fdf6e",
+            measurementId: "G-VYFCV3GLZN"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        // Reference to the database
+        const dbRef = firebase.database().ref('posts/' + id);
+
+        dbRef.once('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                const postData = data;
+                update(postData.imageUrl, postData.title, postData.text, postData.name, postData.timestamp);
+            }
+        });
+
+        function update(theImg, theTitle, theContent, theBy, theTime) {
+            // Get elements by their IDs
+            const imgCover = document.getElementById('img-cover');
+            const title = document.getElementById('title');
+            const content = document.getElementById('contant');
+            const by = document.getElementById('by');
+            const time = document.getElementById('time');
+
+            // Edit their values or properties
+            imgCover.src = theImg; // Update the image source
+            title.textContent = theTitle; // Update the title text
+            content.textContent = theContent; // Update the content
+            by.textContent = `Author: ${theBy}`; // Update the author text
+            time.textContent = formatDate(theTime); // Update the time text
+
+            loader.style.display = 'none'; 
+                
+        }
+
+        function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = String(date.getUTCFullYear()).slice(-2);
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+}
+
+
+document.getElementById('shareButton').addEventListener('click', () => {
+    if (navigator.share) {
+      navigator.share({
+        title: document.title,
+        text: 'Check out this page!',
+        url: window.location.href
+      }).then(() => {
+        console.log('Thanks for sharing!');
+      }).catch((error) => {
+        console.log('Error sharing:', error);
+      });
+    } else {
+      // Copy the URL to the clipboard
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => {
+          alert('Link copied to clipboard!');
+        })
+        .catch((error) => {
+          console.error('Error copying link:', error);
+          alert('Failed to copy link.');
+        });
+    }
+  });
+
+    </script>
+</body>
+</html>

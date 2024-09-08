@@ -25,21 +25,22 @@
     <progress id="upload-progress" value="0" max="100"></progress>
 </div>
 <div class="container">
-    <h1>Post a New Entry</h1>
+    <h1>Post jdeed</h1>
     <form id="post-form" action="/submit-post" method="post" enctype="multipart/form-data">
-        <label for="title">Title of Post:</label>
+        <label for="title">âounwan d'Post:</label>
         <input type="text" id="title" name="title" required>
 
-        <label for="text">Text of Post:</label>
-        <textarea id="text" name="text" rows="4" required></textarea>
+        <label for="text">nas d'Post:</label>
+        <textarea id="text" name="text" rows="4"  cols="50" required></textarea>
+        
 
-        <label for="cover">Cover Image: 534x299</label>
+        <label for="cover">Tswira lel'post : 534x299</label>
         <input type="file" id="cover" name="cover" accept="image/*" required>
 
-        <label for="email">Your Email:</label>
+        <label for="email">Email'ek :</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="name">Your Name:</label>
+        <label for="name">smayt'ek : </label>
         <input type="text" id="name" name="name" required>
         <button id="submit-button" type="submit">Submit Post</button>
 
@@ -131,7 +132,7 @@
 
         firebase.database().ref('posts/' + makeId(title) + getDate()).set({
             title: title,
-            text: text,
+            text: text.replace(/\n/g, '<br>'),
             email: email,
             name: name,
             imageUrl: imageUrl || 'No image uploaded', // Save image URL or placeholder

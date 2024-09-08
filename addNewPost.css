@@ -1,11 +1,20 @@
+
 .container{
     width: 90%;
     height: 100vh;
 }
+.container h1{
+   padding-top: 120px;
+   color: #00CB5E;
+}
+
+
 form{
 display: flex;
 flex-direction: column;
 width: 90%;
+gap: 10px;
+
 
 }
 
@@ -22,11 +31,12 @@ textarea{
 /* Add this to your CSS file */
 .progress-container {
     margin-top: 20px;
+  
 }
 
 /* Style for the progress bar container */
 .progress-container {
-    margin-top: 20px;
+    margin-top: 20px ;
     width: 100%;
     max-width: 500px;
 }
@@ -34,7 +44,7 @@ textarea{
 /* Style for the progress element */
 progress {
     width: 100%;
-    height: 20px;
+    height: 20px ;
     -webkit-appearance: none; /* Remove default styles in WebKit browsers */
 }
 
@@ -51,7 +61,7 @@ progress::-moz-progress-bar {
 }
 
 #submit-button {
-    margin-top: 10px;
+    margin: 20px 0;
 }
 
 
@@ -77,3 +87,4 @@ nav{
 }
 
 }
+

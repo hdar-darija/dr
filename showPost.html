@@ -129,6 +129,9 @@
                 const postData = data;
                 update(postData.imageUrl, postData.title, postData.text, postData.name, postData.timestamp);
             }
+            else{
+                window.location.href = 'PageNotFound.html?id=' + id
+            }
         });
 
         function update(theImg, theTitle, theContent, theBy, theTime) {
@@ -142,7 +145,7 @@
             // Edit their values or properties
             imgCover.src = theImg; // Update the image source
             title.textContent = theTitle; // Update the title text
-            content.textContent = theContent; // Update the content
+            content.innerHTML  = theContent; // Update the content
             by.textContent = `Author: ${theBy}`; // Update the author text
             time.textContent = formatDate(theTime); // Update the time text
 

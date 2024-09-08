@@ -6,7 +6,7 @@
 .posts-div{
    margin-top: 20px;
     display: none;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     justify-content: center;
     width: 100%;
     gap: 10px;
@@ -89,7 +89,6 @@ footer img{
    
 }
 .post{
-    padding: 20px;
     width: 100%;
     width: 350px;
 

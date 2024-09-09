@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="loader.css">
     <link rel="stylesheet" href="baseStyle.css">
+    <link rel="stylesheet" href="post.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
@@ -19,7 +20,8 @@
             <img src="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/hdar%20logos.png?alt=media&token=8d548350-15f9-4a4f-b270-8aceff039d04" alt="">
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i></a>
             <i class="fas fa-share-alt" id="shareButton"></i>
-              
+            <i class="fas fa-thumbs-up" id="likeBtn"></i>
+ 
               
         </div>
     </nav>
@@ -81,6 +83,9 @@
    
 
 }
+#likeBtn{
+    border-radius: 10px;
+}
         footer img {
             width: 70px;
         }
@@ -102,10 +107,23 @@
     <script>
         const loader = document.getElementById('loader');
     const container = document.getElementById('container');
-      
-        const params = new URLSearchParams(window.location.search);
+    const likeBtn = document.getElementById('likeBtn');
+      const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
 
+
+    if(localStorage.getItem(id) === 'liked'){
+        likeBtn.style.background = '#00CB5E'
+        likeBtn.style.color = 'white'
+        
+    }
+    else{
+        likeBtn.style.background = 'white'
+        likeBtn.style.color = '#00CB5E'
+    }
+
+      
+       
         const firebaseConfig = {
             apiKey: "AIzaSyBOGC8qinBmX_F4msMrrxV3VgbwYt6mtg8",
             authDomain: "darija2024-database.firebaseapp.com",
@@ -123,18 +141,18 @@
         // Reference to the database
         const dbRef = firebase.database().ref('posts/' + id);
 
-        dbRef.once('value', (snapshot) => {
+        dbRef.on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 const postData = data;
-                update(postData.imageUrl, postData.title, postData.text, postData.name, postData.timestamp);
+                update(postData.imageUrl, postData.title, postData.text, postData.name, postData.timestamp , postData.likes);
             }
             else{
                 window.location.href = 'PageNotFound.html?id=' + id
             }
         });
 
-        function update(theImg, theTitle, theContent, theBy, theTime) {
+        function update(theImg, theTitle, theContent, theBy, theTime , likes) {
             // Get elements by their IDs
             const imgCover = document.getElementById('img-cover');
             const title = document.getElementById('title');
@@ -148,7 +166,7 @@
             content.innerHTML  = theContent; // Update the content
             by.textContent = `Author: ${theBy}`; // Update the author text
             time.textContent = formatDate(theTime); // Update the time text
-
+            likeBtn.textContent = ' ' +  likes + ' '
             loader.style.display = 'none'; 
                 
         }
@@ -188,6 +206,35 @@ document.getElementById('shareButton').addEventListener('click', () => {
         });
     }
   });
+
+  
+likeBtn.addEventListener('click' , function(){
+  
+  if(localStorage.getItem(id) === 'liked'){
+      likeBtn.style.background = 'white'
+      likeBtn.style.color = '#00CB5E'
+      localStorage.setItem(id , 'unliked')
+      dbRef.update({
+    likes : Number(likeBtn.textContent)  - 1
+
+})
+
+  }
+  else{
+     likeBtn.style.background = '#00CB5E'
+      likeBtn.style.color = 'white'
+      localStorage.setItem(id , 'liked') 
+      dbRef.update({
+     likes : Number(likeBtn.textContent)  + 1
+})
+
+  }
+
+
+
+
+})
+
 
     </script>
 </body>

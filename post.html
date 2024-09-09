@@ -1,0 +1,36 @@
+<script>
+
+
+function creatPost(imgSrc, textContent , date) {
+    if(textContent.lenght > 33 ){
+        textContent = textContent.substring(0 , 33) + '...'
+
+    }
+            let postsDiv = document.getElementById('posts-div');
+
+            let postDiv = document.createElement('div');
+            postDiv.className = 'post';
+
+            let img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = '';
+
+            let p = document.createElement('p');
+            p.textContent = textContent;
+
+            let ptime = document.createElement('span');
+            ptime.textContent = formatDate(date);
+
+
+            postDiv.appendChild(img);
+            postDiv.appendChild(p);
+            postDiv.appendChild(ptime);
+
+            
+
+            postsDiv.appendChild(postDiv);
+
+          
+
+        }
+</script>

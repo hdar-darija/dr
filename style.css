@@ -6,7 +6,7 @@
 .posts-div{
    margin-top: 20px;
     display: none;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     justify-content: center;
     width: 100%;
     gap: 10px;
@@ -15,8 +15,8 @@
 
 .post{
     padding: 0px;
-    border: solid 1px transparent;
-    height: fit-content;
+    border: solid .2px #00CB5E ;
+    border-radius:10px ;
     width: 250px;
     transition: all .3s;
     cursor: pointer;
@@ -26,11 +26,10 @@
 .post:hover{
     padding: 0px;
     border: solid 1px #00CB5E;
-   
     transition: all .3s;
     background: #00CB5E;
-    border-radius:5px ;
-    filter: drop-shadow(1px 1px 20px #00cb5e );
+    border-radius:20px ;
+   
 }
 
 .post img{
@@ -39,6 +38,7 @@
 }
 
 .post p{
+    padding: 5px;
     
     background-color: transparent;
     font-weight: 600;
@@ -46,6 +46,10 @@
 
 
 .post:hover p{
+    color: white;
+
+}
+.post:hover span{
     color: white;
 
 }

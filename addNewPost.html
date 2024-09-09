@@ -34,13 +34,13 @@
         <textarea id="text" name="text" rows="4"  cols="50" required></textarea>
         
 
-        <label for="cover">Tswira lel'post : 534x299</label>
+        <label for="cover">Taswira lel'post : 534x299</label>
         <input type="file" id="cover" name="cover" accept="image/*" required>
 
-        <label for="email">Email'ek :</label>
+        <label for="email">Emailek :</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="name">smayt'ek : </label>
+        <label for="name">smiytek : </label>
         <input type="text" id="name" name="name" required>
         <button id="submit-button" type="submit">Submit Post</button>
 
@@ -129,14 +129,21 @@
     // Function to save post data to Firebase Realtime Database
     function savePostToDatabase(title, text, email, name, imageUrl) {
         const postRef = database.ref('posts').push();
+        if(title.length > 34 ){
+       var theidTitle = title.substring(0 , 34)}
+       else{
+        var theidTitle = title}
+       
 
-        firebase.database().ref('posts/' + makeId(title) + getDate()).set({
+        firebase.database().ref('posts/' + makeId(theidTitle) + getDate()).set({
             title: title,
+            idTitle : theidTitle,
             text: text.replace(/\n/g, '<br>'),
             email: email,
             name: name,
             imageUrl: imageUrl || 'No image uploaded', // Save image URL or placeholder
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            likes: 0
         }).then(() => {
             alert('Post saved successfully!');
             form.reset(); // Clear the form

@@ -6,6 +6,9 @@
     color: #191414;
  /*  background: #000;*/
 }
+html{
+    scroll-behavior: smooth;
+}
 .posts{
     padding: 10px;
     border: solid 1px #00CB5E;

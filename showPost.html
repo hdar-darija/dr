@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hdar.</title>
+    <title>HDAR.</title>
     <link rel="shortcut icon" href="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/hdar-icon.png?alt=media&token=613bd5b0-84f0-4c05-8eaf-c6297dbaea28" type="image/x-icon">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="loader.css">
     <link rel="stylesheet" href="baseStyle.css">
@@ -21,6 +20,7 @@
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i></a>
             <i class="fas fa-share-alt" id="shareButton"></i>
             <i class="fas fa-thumbs-up" id="likeBtn"></i>
+            <i class="fas fa-comments" id="commentsBtn"> 0 </i>
  
               
         </div>
@@ -34,9 +34,9 @@
         <img src="#" alt="" id="img-cover">
         <h1 id="title"></h1>
 
-        <p id="contant">
+        <div id="contant">
            
-        </p>
+        </div>
 
         <div class="info">
             <p id="by"></p>
@@ -83,7 +83,7 @@
    
 
 }
-#likeBtn{
+#likeBtn , #commentsBtn{
     border-radius: 10px;
 }
         footer img {
@@ -101,6 +101,9 @@
                 width: 60vw;
             
             }
+
+
+        
         }
     </style>
 
@@ -108,6 +111,7 @@
         const loader = document.getElementById('loader');
     const container = document.getElementById('container');
     const likeBtn = document.getElementById('likeBtn');
+    const commentsBtn = document.getElementById('commentsBtn');
       const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
 
@@ -145,14 +149,14 @@
             const data = snapshot.val();
             if (data) {
                 const postData = data;
-                update(postData.imageUrl, postData.title, postData.text, postData.name, postData.timestamp , postData.likes);
+                update(postData.imageUrl, postData.title, postData.text, postData.name, postData.timestamp , postData.likes , postData.comments);
             }
             else{
                 window.location.href = 'PageNotFound.html?id=' + id
             }
         });
 
-        function update(theImg, theTitle, theContent, theBy, theTime , likes) {
+        function update(theImg, theTitle, theContent, theBy, theTime , likes , comments) {
             // Get elements by their IDs
             const imgCover = document.getElementById('img-cover');
             const title = document.getElementById('title');
@@ -167,6 +171,7 @@
             by.textContent = `Author: ${theBy}`; // Update the author text
             time.textContent = formatDate(theTime); // Update the time text
             likeBtn.textContent = ' ' +  likes + ' '
+            commentsBtn.textContent = " " + Object.keys(comments).length + " "
             loader.style.display = 'none'; 
                 
         }
@@ -235,6 +240,14 @@ likeBtn.addEventListener('click' , function(){
 
 })
 
+
+
+commentsBtn.addEventListener('click' , function(){
+    
+
+    window.location.href = `comments.html?id=${id}`;
+
+})
 
     </script>
 </body>

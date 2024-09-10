@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDAR.</title>
+    <link rel="stylesheet" href="baseStyle.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="loader.css">
+    <link rel="shortcut icon" href="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/hdar-icon.png?alt=media&token=613bd5b0-84f0-4c05-8eaf-c6297dbaea28" type="image/x-icon">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo-div">
+            <img src="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/hdar%20logos.png?alt=media&token=8d548350-15f9-4a4f-b270-8aceff039d04" alt="">
+            <a href="addNewPost.html"><i class="fa-solid fa-plus"></i></a>
+
+        </div>
+    </nav>
+   
+<div class="loader-section">
+    <div class="loader" id="loader"></div>
+</div>
+    <div class="posts-div" id="posts-div">
+        <!-- Posts will be dynamically added here -->
+    </div>
+
+    <footer>
+        <img src="https://firebasestorage.googleapis.com/v0/b/darija2024-database.appspot.com/o/3.png?alt=media&token=6ae5f01e-5c80-42ce-ad8d-e1d15b6a3b9d" alt="">
+        <p>&copy; 2024 HDAR.</p>
+        <p>by abdelhakim sahifa</p>
+    </footer>
+
+    <script>
+    const postsDiv = document.getElementById('posts-div');
+    const loader = document.getElementById('loader');
+   
+
+
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOGC8qinBmX_F4msMrrxV3VgbwYt6mtg8",
+            authDomain: "darija2024-database.firebaseapp.com",
+            databaseURL: "https://darija2024-database-default-rtdb.firebaseio.com",
+            projectId: "darija2024-database",
+            storageBucket: "darija2024-database.appspot.com",
+            messagingSenderId: "621215461163",
+            appId: "1:621215461163:web:d594741683e99c742fdf6e",
+            measurementId: "G-VYFCV3GLZN"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        // Reference to the database
+        const dbRef = firebase.database().ref('posts');
+
+        // Fetch data once
+        dbRef.once('value').then((snapshot) => {
+            const data = snapshot.val();
+            console.table(data)
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    creatPost(data[key].imageUrl, data[key].idTitle, data[key].timestamp);
+                });
+                loader.style.display = 'none'; 
+                postsDiv.style.display = 'flex'; 
+                
+                
+
+            }
+            
+        });
+
+        // Listen for real-time updates
+        dbRef.on('value', (snapshot) => {
+         
+        });
+
+        function creatPost(imgSrc, textContent , date) {
+            if(textContent.length >= 34 ){
+                textContent = textContent + '...'
+            }
+  
+
+
+            let postsDiv = document.getElementById('posts-div');
+
+            let postDiv = document.createElement('div');
+            postDiv.className = 'post';
+
+            let img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = '';
+
+            let p = document.createElement('p');
+            p.textContent = textContent;
+
+            let ptime = document.createElement('span');
+            ptime.textContent = formatDate(date);
+
+
+            postDiv.appendChild(img);
+            postDiv.appendChild(p);
+            postDiv.appendChild(ptime);
+
+            
+
+            postsDiv.appendChild(postDiv);
+
+          
+
+        }
+
+
+        document.getElementById('posts-div').addEventListener('click', function(event) {
+            // Check if the clicked element is a <div> with class 'post'
+            const postDiv = event.target.closest('.post');
+
+            if (postDiv) {
+                // Get the <p> element inside the clicked .post
+                const titleElement = postDiv.querySelector('p');
+                const dateElement = postDiv.querySelector('span');
+                var titleText = titleElement.textContent || titleElement.innerText;
+
+                if(titleText.length >= 34 ){
+                titleText = titleText.slice(0, -3)
+            }
+
+                // Display the title text
+                
+                window.location.href = `showPost.html?id=${makeId(titleText) + '-' + reformatDate(dateElement.textContent)}`;
+
+            }
+        });
+
+
+        function makeId(title) {
+        var trimmedString = title.trim(); // Removes spaces from the beginning and end
+        var id = trimmedString.replace(/ /g, '-');
+        return id;
+    }
+
+
+    function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = String(date.getUTCFullYear()).slice(-2);
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+}
+
+
+function reformatDate(inputString) {
+    // Split input into date and time parts
+    const [datePart, timePart] = inputString.split(' ');
+    const [day, month, year] = datePart.split('-');
+    const [hours, minutes] = timePart.split(':');
+
+    // Convert two-digit year to four-digit year
+    const fullYear = `20${year}`;
+    
+    // Construct the new format
+    return `${fullYear}-${month}-${day}T${hours}-${minutes}`;
+}
+
+    </script>
+</body>
+</html>
